@@ -15,13 +15,14 @@ session = requests.Session()
 session.mount('http://', requests.adapters.HTTPAdapter(max_retries=3))
 raw_data = session.get(api_url)
 
-
+for i,ele in enumerate(raw_data.json()["dataset"]['data']):
 	if int(str(ele[0]).split('-')[1]) == last_month:
 		close_prices_list.append(ele[4]) # field for closing price
 		dates.append(str(ele[0]))
 	if int(str(ele[0]).split('-')[1])< last_month:
 		break
 
+dates = dates[::-1]
 close_prices_list = close_prices_list[::-1]
 pd_dates = pd.to_datetime(dates)
 
