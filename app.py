@@ -36,7 +36,7 @@ def main():
 
 @app.route('/index')
 def index():
-  return str(str(df))
+  return str("<br>".join(df))
   return render_template('index.html')
 
 if __name__ == '__main__':
