@@ -1,11 +1,12 @@
+from __future__ import print_function
 from flask import Flask, render_template, request, redirect
 import requests
 import datetime
 import pandas as pd
 from bokeh.plotting import figure
 from bokeh.embed import components
-
-plot = figure( title='Data from GOOG last month', x_axis_label='date', x_axis_type='datetime')
+from bokeh.resources import INLINE
+from bokeh.util.string import encode_utf8
 
 dates = []
 now = datetime.datetime.now()
@@ -31,7 +32,6 @@ close_prices_list = close_prices_list[::-1]
 pd_dates = pd.to_datetime(dates)
 
 df = pd.DataFrame(close_prices_list, index = pd_dates)
-plot.line(df)
 
 app = Flask(__name__)
 
@@ -41,8 +41,19 @@ def main():
 
 @app.route('/index')
 def index():
-  script, div = components(plot)
-  return render_template('graph.html', script=script, div=div)
+ #create the graph
+  x = list(range(0,  10+ 1))
+  fig = figure(title="Polynomial")
+  fig.line(x, [i ** 2 for i in x], color='Black', line_width=2)
+  
+  #config resources for BokehJS
+  js_resources = INLINE.render_js()
+  css_resources = INLINE.render_css()
+  
+  #embedd html components
+  script, div = components(fig,INLINE)
+  html= render_template('embed.html', plot_script=script, plot_div=div,js_resources=js_resources,css_resources=css_resources)
+  return encode_utf8(html)
   return str(df)
   return render_template('index.html')
 
