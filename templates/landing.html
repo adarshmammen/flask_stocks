@@ -1,0 +1,25 @@
+
+<!doctype html>
+<title>Stock Prices at Close, Last month</title>
+<link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_lulu.css')}}'>
+<div class=page>
+  <h1>Stock Prices at Close, Last month</h1>
+  <div class=metanav>
+
+    <h4>
+Enter a Stock ticker to view its fluctuatons last month <br>
+eg: AAPL, GOOG
+    </h4>
+
+    <form id='userinfoform_lulu' method='post' action='index' >
+      <p>
+    Name: <input type='text' name='name_lulu' />
+      </p>
+      <p>
+    <input type='submit' value='View' />
+      </p>
+    </form>
+
+  </div>
+</div>
+</html>
